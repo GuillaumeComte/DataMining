@@ -27,7 +27,7 @@ allerror = []
 X = []
 Y = []
 third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
-#third = len(filesCP)-1
+third = len(filesCP)-1
 
 leventFr = []
 llabel = []
@@ -50,9 +50,9 @@ def dataPreparation():
     # Y = []
     # third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
 
-    for f in filesCP:
+    for f in range(0,third):
         reader = btk.btkAcquisitionFileReader()
-        reader.SetFilename(f)
+        reader.SetFilename(filesCP[f])
         reader.Update()
         acq = reader.GetOutput() # acq is the btk aquisition object
         ptFr = acq.GetPointFrequency() # give the point frequency
