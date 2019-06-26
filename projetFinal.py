@@ -26,8 +26,14 @@ filesCP = glob.glob(path) # Pour avoir tous les noms de fichiers dans une liste
 allerror = []
 X = []
 Y = []
-third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
+third = int(round(len(filesCP)/3)) # Deux tiers du nombre de fichiers
 #third = len(filesCP)-1
+training_from = 0
+training_to = third
+training_from2 = third
+training_to2 = third*2
+testing_from = third*2
+testing_to = len(filesCP)
 
 leventFr = []
 llabel = []
@@ -50,7 +56,7 @@ def dataPreparation_CP():
     # Y = []
     # third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
 
-    for f in range(0,third):
+    for f in range(training_from,training_to):
         reader = btk.btkAcquisitionFileReader()
         reader.SetFilename(filesCP[f])
         reader.Update()
@@ -122,6 +128,78 @@ def dataPreparation_CP():
 
 
 
+    for f in range(training_from2,training_to2):
+        reader = btk.btkAcquisitionFileReader()
+        reader.SetFilename(filesCP[f])
+        reader.Update()
+        acq = reader.GetOutput() # acq is the btk aquisition object
+        ptFr = acq.GetPointFrequency() # give the point frequency
+        nbFrame = acq.GetPointFrameNumber() # give the number of frames
+        metadata = acq.GetMetaData()
+        nbEvent = metadata.FindChild("EVENT").value().FindChild("USED").value().GetInfo().ToInt()[0]
+        # Contient tous les points de chaque capteurs
+        LeftHeel = acq.GetPoint("LHEE").GetValues()
+        RightHeel = acq.GetPoint("RHEE").GetValues()
+        LeftAnkle = acq.GetPoint("LANK").GetValues()
+        RightAnkle = acq.GetPoint("RANK").GetValues()
+        LeftToe = acq.GetPoint("LTOE").GetValues()
+        RightToe = acq.GetPoint("RTOE").GetValues()
+        # LeftKnee = acq.GetPoint("LKNE").GetValues()
+        # RightKnee = acq.GetPoint("RKNE").GetValues()
+        # LeftThigh = acq.GetPoint("LTHI").GetValues()
+        # RightThigh = acq.GetPoint("RTHI").GetValues()
+        LeftTib = acq.GetPoint("LTIB").GetValues()
+        RightTib = acq.GetPoint("RTIB").GetValues()
+        for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
+            LeftHeel[i][1] = 10
+            LeftAnkle[i][1] = 10
+            LeftToe[i][1] = 10
+            # LeftKnee[i][1] = 10
+            # LeftThigh[i][1] = 10
+            LeftTib[i][1] = 10
+            RightHeel[i][1] = 40
+            RightAnkle[i][1] = 40
+            RightToe[i][1] = 40
+            # RightKnee[i][1] = 40
+            # RightThigh[i][1] = 40
+            RightTib[i][1] = 40
+
+        for i in range(0,nbEvent):
+            event = acq.GetEvent(i) # extract the first event of the aquisition
+            label = event.GetLabel() # return a string representing the Label
+            context = event.GetContext() # return a string representing the Context
+            eventFr = event.GetFrame() # return the frame as an integer
+            # Chercher les frames :
+            LHeel = LeftHeel[eventFr-1,:]
+            RHeel = RightHeel[eventFr-1,:]
+            LAnkle = LeftAnkle[eventFr-1,:]
+            RAnkle = RightAnkle[eventFr-1,:]
+            LToe = LeftToe[eventFr-1,:]
+            RToe = RightToe[eventFr-1,:]
+            # LKnee = LeftKnee[eventFr-1,:]
+            # RKnee = RightKnee[eventFr-1,:]
+            # LThigh = LeftThigh[eventFr-1,:]
+            # RThigh = RightThigh[eventFr-1,:]
+            LTib = LeftTib[eventFr-1,:]
+            RTib = RightTib[eventFr-1,:]
+            allValues = [] # Stocke les frames des evenements
+            allValues.extend(LHeel)
+            allValues.extend(RHeel)
+            allValues.extend(LAnkle)
+            allValues.extend(RAnkle)
+            allValues.extend(LToe)
+            allValues.extend(RToe)
+            # allValues.extend(LKnee)
+            # allValues.extend(RKnee)
+            # allValues.extend(LThigh)
+            # allValues.extend(RThigh)
+            allValues.extend(LTib)
+            allValues.extend(RTib)
+            X.append(allValues) # Les frames des evenements
+            Y.append(label + " " + context)
+
+
+
     # Gestion des nothing
     for i in range(0,nbEvent):
         event = acq.GetEvent(i) # extract the first event of the aquisition
@@ -174,7 +252,7 @@ def prediction_CP():
 
 
     # Testing
-    for f in range(third,len(filesCP)):
+    for f in range(testing_from,testing_to):
         indexname = filesCP[f].split("/",9)
         fname = indexname[len(indexname)-1]
         reader = btk.btkAcquisitionFileReader() # acq is the btk aquisition object
@@ -500,7 +578,7 @@ def dataPreparation_ITW():
     # Y = []
     # third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
 
-    for f in range(0,third):
+    for f in range(training_from,training_to):
         reader = btk.btkAcquisitionFileReader()
         reader.SetFilename(filesCP[f])
         reader.Update()
@@ -572,6 +650,79 @@ def dataPreparation_ITW():
 
 
 
+for f in range(training_from2,training_to2):
+    reader = btk.btkAcquisitionFileReader()
+    reader.SetFilename(filesCP[f])
+    reader.Update()
+    acq = reader.GetOutput() # acq is the btk aquisition object
+    ptFr = acq.GetPointFrequency() # give the point frequency
+    nbFrame = acq.GetPointFrameNumber() # give the number of frames
+    metadata = acq.GetMetaData()
+    nbEvent = metadata.FindChild("EVENT").value().FindChild("USED").value().GetInfo().ToInt()[0]
+    # Contient tous les points de chaque capteurs
+    LeftHeel = acq.GetPoint("LHEE").GetValues()
+    RightHeel = acq.GetPoint("RHEE").GetValues()
+    LeftAnkle = acq.GetPoint("LANK").GetValues()
+    RightAnkle = acq.GetPoint("RANK").GetValues()
+    LeftToe = acq.GetPoint("LTOE").GetValues()
+    RightToe = acq.GetPoint("RTOE").GetValues()
+    # LeftKnee = acq.GetPoint("LKNE").GetValues()
+    # RightKnee = acq.GetPoint("RKNE").GetValues()
+    # LeftThigh = acq.GetPoint("LTHI").GetValues()
+    # RightThigh = acq.GetPoint("RTHI").GetValues()
+    LeftTib = acq.GetPoint("LTIB").GetValues()
+    RightTib = acq.GetPoint("RTIB").GetValues()
+    for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
+        LeftHeel[i][1] = 10
+        LeftAnkle[i][1] = 10
+        LeftToe[i][1] = 10
+        # LeftKnee[i][1] = 10
+        # LeftThigh[i][1] = 10
+        LeftTib[i][1] = 10
+        RightHeel[i][1] = 40
+        RightAnkle[i][1] = 40
+        RightToe[i][1] = 40
+        # RightKnee[i][1] = 40
+        # RightThigh[i][1] = 40
+        RightTib[i][1] = 40
+
+    for i in range(0,nbEvent):
+        event = acq.GetEvent(i) # extract the first event of the aquisition
+        label = event.GetLabel() # return a string representing the Label
+        context = event.GetContext() # return a string representing the Context
+        eventFr = event.GetFrame() # return the frame as an integer
+        # Chercher les frames :
+        LHeel = LeftHeel[eventFr-1,:]
+        RHeel = RightHeel[eventFr-1,:]
+        LAnkle = LeftAnkle[eventFr-1,:]
+        RAnkle = RightAnkle[eventFr-1,:]
+        LToe = LeftToe[eventFr-1,:]
+        RToe = RightToe[eventFr-1,:]
+        # LKnee = LeftKnee[eventFr-1,:]
+        # RKnee = RightKnee[eventFr-1,:]
+        # LThigh = LeftThigh[eventFr-1,:]
+        # RThigh = RightThigh[eventFr-1,:]
+        LTib = LeftTib[eventFr-1,:]
+        RTib = RightTib[eventFr-1,:]
+        allValues = [] # Stocke les frames des evenements
+        allValues.extend(LHeel)
+        allValues.extend(RHeel)
+        allValues.extend(LAnkle)
+        allValues.extend(RAnkle)
+        allValues.extend(LToe)
+        allValues.extend(RToe)
+        # allValues.extend(LKnee)
+        # allValues.extend(RKnee)
+        # allValues.extend(LThigh)
+        # allValues.extend(RThigh)
+        allValues.extend(LTib)
+        allValues.extend(RTib)
+        X.append(allValues) # Les frames des evenements
+        Y.append(label + " " + context)
+
+
+
+
     # Gestion des nothing
     for i in range(0,nbEvent):
         event = acq.GetEvent(i) # extract the first event of the aquisition
@@ -624,7 +775,7 @@ def prediction_ITW():
 
 
     # Testing
-    for f in range(third,len(filesCP)):
+    for f in range(testing_from,testing_to):
         indexname = filesCP[f].split("/",9)
         fname = indexname[len(indexname)-1]
         reader = btk.btkAcquisitionFileReader() # acq is the btk aquisition object
@@ -949,7 +1100,7 @@ def dataPreparation_FD():
     # Y = []
     # third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
 
-    for f in range(0,third):
+    for f in range(training_from,training_to):
         reader = btk.btkAcquisitionFileReader()
         reader.SetFilename(filesCP[f])
         reader.Update()
@@ -1021,6 +1172,77 @@ def dataPreparation_FD():
 
 
 
+for f in range(training_from2,training_to2):
+    reader = btk.btkAcquisitionFileReader()
+    reader.SetFilename(filesCP[f])
+    reader.Update()
+    acq = reader.GetOutput() # acq is the btk aquisition object
+    ptFr = acq.GetPointFrequency() # give the point frequency
+    nbFrame = acq.GetPointFrameNumber() # give the number of frames
+    metadata = acq.GetMetaData()
+    nbEvent = metadata.FindChild("EVENT").value().FindChild("USED").value().GetInfo().ToInt()[0]
+    # Contient tous les points de chaque capteurs
+    LeftHeel = acq.GetPoint("LHEE").GetValues()
+    RightHeel = acq.GetPoint("RHEE").GetValues()
+    LeftAnkle = acq.GetPoint("LANK").GetValues()
+    RightAnkle = acq.GetPoint("RANK").GetValues()
+    LeftToe = acq.GetPoint("LTOE").GetValues()
+    RightToe = acq.GetPoint("RTOE").GetValues()
+    # LeftKnee = acq.GetPoint("LKNE").GetValues()
+    # RightKnee = acq.GetPoint("RKNE").GetValues()
+    # LeftThigh = acq.GetPoint("LTHI").GetValues()
+    # RightThigh = acq.GetPoint("RTHI").GetValues()
+    LeftTib = acq.GetPoint("LTIB").GetValues()
+    RightTib = acq.GetPoint("RTIB").GetValues()
+    for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
+        LeftHeel[i][1] = 10
+        LeftAnkle[i][1] = 10
+        LeftToe[i][1] = 10
+        # LeftKnee[i][1] = 10
+        # LeftThigh[i][1] = 10
+        LeftTib[i][1] = 10
+        RightHeel[i][1] = 40
+        RightAnkle[i][1] = 40
+        RightToe[i][1] = 40
+        # RightKnee[i][1] = 40
+        # RightThigh[i][1] = 40
+        RightTib[i][1] = 40
+
+    for i in range(0,nbEvent):
+        event = acq.GetEvent(i) # extract the first event of the aquisition
+        label = event.GetLabel() # return a string representing the Label
+        context = event.GetContext() # return a string representing the Context
+        eventFr = event.GetFrame() # return the frame as an integer
+        # Chercher les frames :
+        LHeel = LeftHeel[eventFr-1,:]
+        RHeel = RightHeel[eventFr-1,:]
+        LAnkle = LeftAnkle[eventFr-1,:]
+        RAnkle = RightAnkle[eventFr-1,:]
+        LToe = LeftToe[eventFr-1,:]
+        RToe = RightToe[eventFr-1,:]
+        # LKnee = LeftKnee[eventFr-1,:]
+        # RKnee = RightKnee[eventFr-1,:]
+        # LThigh = LeftThigh[eventFr-1,:]
+        # RThigh = RightThigh[eventFr-1,:]
+        LTib = LeftTib[eventFr-1,:]
+        RTib = RightTib[eventFr-1,:]
+        allValues = [] # Stocke les frames des evenements
+        allValues.extend(LHeel)
+        allValues.extend(RHeel)
+        allValues.extend(LAnkle)
+        allValues.extend(RAnkle)
+        allValues.extend(LToe)
+        allValues.extend(RToe)
+        # allValues.extend(LKnee)
+        # allValues.extend(RKnee)
+        # allValues.extend(LThigh)
+        # allValues.extend(RThigh)
+        allValues.extend(LTib)
+        allValues.extend(RTib)
+        X.append(allValues) # Les frames des evenements
+        Y.append(label + " " + context)
+
+
     # Gestion des nothing
     for i in range(0,nbEvent):
         event = acq.GetEvent(i) # extract the first event of the aquisition
@@ -1073,7 +1295,7 @@ def prediction_FD():
 
 
     # Testing
-    for f in range(third,len(filesCP)):
+    for f in range(testing_from,testing_to):
         indexname = filesCP[f].split("/",9)
         fname = indexname[len(indexname)-1]
         reader = btk.btkAcquisitionFileReader() # acq is the btk aquisition object
@@ -1400,20 +1622,125 @@ def prediction_FD():
 
 
 ###############MAIN
+print("########## CP ############")
+print("Premier tiers")
 dataPreparation_CP()
 prediction_CP()
-path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/ITW/*"
-files = glob.glob(path)
+ # second trial
+print("Deuxieme tiers")
+filesCP = glob.glob(path)
 X = []
 Y = []
-third = int(round(len(files)/3))*2
+training_from = third
+training_to = third*2
+training_from2 = third*2
+training_to2 = len(filesCP)
+testing_from = 0
+testing_to = third
+dataPreparation_CP()
+prediction_CP()
+#third trial
+print("Troisieme tiers")
+filesCP = glob.glob(path)
+X = []
+Y = []
+training_from = 0
+training_to = third
+training_from2 = third*2
+training_to2 = len(filesCP)
+testing_from = third
+testing_to = third*2
+dataPreparation_CP()
+prediction_CP()
 
+
+
+
+
+
+print("########## ITW ############")
+print("Premier tiers")
+path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/ITW/*"
+filesCP = glob.glob(path)
+X = []
+Y = []
+third = int(round(len(filesCP)/3))
+training_from = 0
+training_to = third
+training_from2 = third
+training_to2 = third*2
+testing_from = third*2
+testing_to = len(filesCP)
 dataPreparation_ITW()
 prediction_ITW()
-path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/FD/*"
-files = glob.glob(path)
+ # second trial
+print("Second tiers")
 X = []
 Y = []
-third = int(round(len(files)/3))*2
+training_from = third
+training_to = third*2
+training_from2 = third*2
+training_to2 = len(filesCP)
+testing_from = 0
+testing_to = third
+dataPreparation_ITW()
+prediction_ITW()
+#third trial
+print("Troisieme tiers")
+X = []
+Y = []
+training_from = 0
+training_to = third
+training_from2 = third*2
+training_to2 = len(filesCP)
+testing_from = third
+testing_to = third*2
+dataPreparation_ITW()
+prediction_ITW()
+
+
+
+
+
+
+print("########## FD ############")
+print("Premier tiers")
+path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/FD/*"
+filesCP = glob.glob(path)
+X = []
+Y = []
+third = int(round(len(filesCP)/3))
+training_from = 0
+training_to = third
+training_from2 = third
+training_to2 = third*2
+testing_from = third*2
+testing_to = len(filesCP)
+dataPreparation_FD()
+prediction_FD()
+ # second trial
+print("Second tiers")
+filesCP = glob.glob(path)
+X = []
+Y = []
+training_from = third
+training_to = third*2
+training_from2 = third*2
+training_to2 = len(filesCP)
+testing_from = 0
+testing_to = third
+dataPreparation_FD()
+prediction_FD()
+#third trial
+print("Troisieme tiers")
+filesCP = glob.glob(path)
+X = []
+Y = []
+training_from = 0
+training_to = third
+training_from2 = third*2
+training_to2 = len(filesCP)
+testing_from = third
+testing_to = third*2
 dataPreparation_FD()
 prediction_FD()
