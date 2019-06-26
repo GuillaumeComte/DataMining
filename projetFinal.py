@@ -1,11 +1,7 @@
-# Noms : Jonathan Lo et Guillaume Comte
+# Noms : Guillaume Comte et Jonathan Lo
 # Data Mining
 # Final Project
 # Juin 2019
-
-
-
-
 
 import sys
 import btk
@@ -27,7 +23,7 @@ allerror = []
 X = []
 Y = []
 third = int(round(len(filesCP)/3)) # Deux tiers du nombre de fichiers
-#third = len(filesCP)-1
+
 training_from = 0
 training_to = third
 training_from2 = third
@@ -38,8 +34,6 @@ testing_to = len(filesCP)
 leventFr = []
 llabel = []
 lcontext = []
-
-
 
 llnew = []
 llnec = []
@@ -53,12 +47,6 @@ allritw = []
 
 
 def dataPreparation_CP():
-    # path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/"+pathology+"/*"
-    # filesCP = glob.glob(path) # Pour avoir tous les noms de fichiers dans une liste
-    # X = []
-    # Y = []
-    # third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
-
     for f in range(training_from,training_to):
         reader = btk.btkAcquisitionFileReader()
         reader.SetFilename(filesCP[f])
@@ -75,24 +63,16 @@ def dataPreparation_CP():
         RightAnkle = acq.GetPoint("RANK").GetValues()
         LeftToe = acq.GetPoint("LTOE").GetValues()
         RightToe = acq.GetPoint("RTOE").GetValues()
-        # LeftKnee = acq.GetPoint("LKNE").GetValues()
-        # RightKnee = acq.GetPoint("RKNE").GetValues()
-        # LeftThigh = acq.GetPoint("LTHI").GetValues()
-        # RightThigh = acq.GetPoint("RTHI").GetValues()
         LeftTib = acq.GetPoint("LTIB").GetValues()
         RightTib = acq.GetPoint("RTIB").GetValues()
         for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
             LeftHeel[i][1] = 10
             LeftAnkle[i][1] = 10
             LeftToe[i][1] = 10
-            # LeftKnee[i][1] = 10
-            # LeftThigh[i][1] = 10
             LeftTib[i][1] = 10
             RightHeel[i][1] = 40
             RightAnkle[i][1] = 40
             RightToe[i][1] = 40
-            # RightKnee[i][1] = 40
-            # RightThigh[i][1] = 40
             RightTib[i][1] = 40
 
         for i in range(0,nbEvent):
@@ -107,10 +87,6 @@ def dataPreparation_CP():
             RAnkle = RightAnkle[eventFr-1,:]
             LToe = LeftToe[eventFr-1,:]
             RToe = RightToe[eventFr-1,:]
-            # LKnee = LeftKnee[eventFr-1,:]
-            # RKnee = RightKnee[eventFr-1,:]
-            # LThigh = LeftThigh[eventFr-1,:]
-            # RThigh = RightThigh[eventFr-1,:]
             LTib = LeftTib[eventFr-1,:]
             RTib = RightTib[eventFr-1,:]
             allValues = [] # Stocke les frames des evenements
@@ -120,10 +96,6 @@ def dataPreparation_CP():
             allValues.extend(RAnkle)
             allValues.extend(LToe)
             allValues.extend(RToe)
-            # allValues.extend(LKnee)
-            # allValues.extend(RKnee)
-            # allValues.extend(LThigh)
-            # allValues.extend(RThigh)
             allValues.extend(LTib)
             allValues.extend(RTib)
             X.append(allValues) # Les frames des evenements
@@ -147,24 +119,16 @@ def dataPreparation_CP():
         RightAnkle = acq.GetPoint("RANK").GetValues()
         LeftToe = acq.GetPoint("LTOE").GetValues()
         RightToe = acq.GetPoint("RTOE").GetValues()
-        # LeftKnee = acq.GetPoint("LKNE").GetValues()
-        # RightKnee = acq.GetPoint("RKNE").GetValues()
-        # LeftThigh = acq.GetPoint("LTHI").GetValues()
-        # RightThigh = acq.GetPoint("RTHI").GetValues()
         LeftTib = acq.GetPoint("LTIB").GetValues()
         RightTib = acq.GetPoint("RTIB").GetValues()
         for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
             LeftHeel[i][1] = 10
             LeftAnkle[i][1] = 10
             LeftToe[i][1] = 10
-            # LeftKnee[i][1] = 10
-            # LeftThigh[i][1] = 10
             LeftTib[i][1] = 10
             RightHeel[i][1] = 40
             RightAnkle[i][1] = 40
             RightToe[i][1] = 40
-            # RightKnee[i][1] = 40
-            # RightThigh[i][1] = 40
             RightTib[i][1] = 40
 
         for i in range(0,nbEvent):
@@ -179,10 +143,6 @@ def dataPreparation_CP():
             RAnkle = RightAnkle[eventFr-1,:]
             LToe = LeftToe[eventFr-1,:]
             RToe = RightToe[eventFr-1,:]
-            # LKnee = LeftKnee[eventFr-1,:]
-            # RKnee = RightKnee[eventFr-1,:]
-            # LThigh = LeftThigh[eventFr-1,:]
-            # RThigh = RightThigh[eventFr-1,:]
             LTib = LeftTib[eventFr-1,:]
             RTib = RightTib[eventFr-1,:]
             allValues = [] # Stocke les frames des evenements
@@ -192,10 +152,6 @@ def dataPreparation_CP():
             allValues.extend(RAnkle)
             allValues.extend(LToe)
             allValues.extend(RToe)
-            # allValues.extend(LKnee)
-            # allValues.extend(RKnee)
-            # allValues.extend(LThigh)
-            # allValues.extend(RThigh)
             allValues.extend(LTib)
             allValues.extend(RTib)
             X.append(allValues) # Les frames des evenements
@@ -217,10 +173,6 @@ def dataPreparation_CP():
                 RAnkle = RightAnkle[eventFr + val,:]
                 LToe = LeftToe[eventFr + val,:]
                 RToe = RightToe[eventFr + val,:]
-                # LKnee = LeftKnee[event + val,:]
-                # RKnee = RightKnee[event + val,:]
-                # LThigh = LeftThigh[event + val,:]
-                # RThigh = RightThigh[event + val,:]
                 LTib = LeftTib[eventFr + val,:]
                 RTib = RightTib[eventFr + val,:]
                 allValues = []
@@ -230,10 +182,6 @@ def dataPreparation_CP():
                 allValues.extend(RAnkle)
                 allValues.extend(LToe)
                 allValues.extend(RToe)
-                # allValues.extend(LKnee)
-                # allValues.extend(RKnee)
-                # allValues.extend(LThigh)
-                # allValues.extend(RThigh)
                 allValues.extend(LTib)
                 allValues.extend(RTib)
                 X.append(allValues)
@@ -270,24 +218,16 @@ def prediction_CP():
         RightAnkle = acq.GetPoint("RANK").GetValues()
         LeftToe = acq.GetPoint("LTOE").GetValues()
         RightToe = acq.GetPoint("RTOE").GetValues()
-        # LeftKnee = acq.GetPoint("LKNE").GetValues()
-        # RightKnee = acq.GetPoint("RKNE").GetValues()
-        # LeftThigh = acq.GetPoint("LTHI").GetValues()
-        # RightThigh = acq.GetPoint("RTHI").GetValues()
         LeftTib = acq.GetPoint("LTIB").GetValues()
         RightTib = acq.GetPoint("RTIB").GetValues()
         for i in range(len(LeftHeel)):
             LeftHeel[i][1] = 10
             LeftAnkle[i][1] = 10
             LeftToe[i][1] = 10
-            # LeftKnee[i][1] = 10
-            # LeftThigh[i][1] = 10
             LeftTib[i][1] = 10
             RightHeel[i][1] = 40
             RightAnkle[i][1] = 40
             RightToe[i][1] = 40
-            # RightKnee[i][1] = 40
-            # RightThigh[i][1] = 40
             RightTib[i][1] = 40
 
         prediction = [[]]*(nbFrame-1)
@@ -299,10 +239,6 @@ def prediction_CP():
             RAnkle = RightAnkle[i-1,:]
             LToe = LeftToe[i-1,:]
             RToe = RightToe[i-1,:]
-            # LKnee = LeftKnee[i-1,:]
-            # RKnee = RightKnee[i-1,:]
-            # LThigh = LeftThigh[i-1,:]
-            # RThigh = RightThigh[i-1,:]
             LTib = LeftTib[i-1,:]
             RTib = RightTib[i-1,:]
             allValues = []
@@ -312,10 +248,6 @@ def prediction_CP():
             allValues.extend(RAnkle)
             allValues.extend(LToe)
             allValues.extend(RToe)
-            # allValues.extend(LKnee)
-            # allValues.extend(RKnee)
-            # allValues.extend(LThigh)
-            # allValues.extend(RThigh)
             allValues.extend(LTib)
             allValues.extend(RTib)
             prediction[i-1] = allValues
@@ -323,18 +255,11 @@ def prediction_CP():
 
         newValues = clf.predict(prediction)
 
-
-
-
-
-
         ev = 0
         lerror = []
         lnewevent = []
         lnec = []
         lnel = []
-
-
 
         for i in range(0,nbFrame-2):
             if (newValues[i] != "nothing"):
@@ -353,7 +278,6 @@ def prediction_CP():
                 max = -1000000
                 if tmpl[0] == "Foot_Strike_GS":
                     for k in range(i,i+value):
-                        # if LeftToe[k][2] + RightToe[k][2] + LeftHeel[k][2] + RightHeel[k][2] < min:
                         if LeftHeel[k][2] + RightHeel[k][2] < min:
                             min = LeftToe[k][2] + RightToe[k][2]
                             f = k
@@ -381,12 +305,10 @@ def prediction_CP():
 
         writer = btk.btkAcquisitionFileWriter()
         writer.SetInput(acq)
-        #writer.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         writer.SetFilename(pathSave + fname)
         writer.Update()
 
         reader = btk.btkAcquisitionFileReader()
-        #reader.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         reader.SetFilename(pathSave + fname)
         reader.Update()
         acq = reader.GetOutput() # acq is the btk aquisition object
@@ -502,32 +424,6 @@ def prediction_CP():
                     acq.AppendEvent(event)
                     lnewevent.append(f)
 
-
-
-        # print(leventFr)
-        # print(llabel)
-        # print(lcontext)
-
-
-        # for i in range(0,len[levent[d]]):
-        #     event = acq.GetEvent(i)
-        #     eventFr = event.GetFrame() # return the frame as an integer
-        #     leventFr.append(eventFr)
-        #     label = event.GetLabel() # return a string representing the Label
-        #     context = event.GetContext() # return a string representing the Context
-        #     llabel.append(label)
-        #     lcontext.append(context)
-        # for o in range(0,len(leventFr)):
-        #     mindist = nbFrame
-        #     for p in range(0,len(lnewevent)):
-        #         if lnel[p] == llabel[o] and lnec[p] == lcontext[o]:
-        #             if abs(leventFr[o] - lnewevent[p]) < mindist :
-        #                 mindist = abs(leventFr[o] - lnewevent[p])
-        #     lerror.append(mindist)
-        # if ev > 100:
-        #     print("ALERT")
-
-
         leventFr = []
         llabel = []
         lcontext = []
@@ -540,8 +436,6 @@ def prediction_CP():
             llabel.append(label)
             lcontext.append(context)
 
-
-
         for o in range(0,len(leventFr)):
             mindist = 45
             for p in range(0,len(lnewevent)):
@@ -552,15 +446,12 @@ def prediction_CP():
         if ev > 100:
             print("ALERT")
 
-
         writer = btk.btkAcquisitionFileWriter()
         writer.SetInput(acq)
-        #writer.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         writer.SetFilename(pathSave + fname)
 
         writer.Update()
         allerror.append(lerror)
-    # print(allerror)
     valerr = 0
     for k in allerror:
         for p in k:
@@ -576,12 +467,6 @@ def prediction_CP():
 
 
 def dataPreparation_ITW():
-    # path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/"+pathology+"/*"
-    # filesCP = glob.glob(path) # Pour avoir tous les noms de fichiers dans une liste
-    # X = []
-    # Y = []
-    # third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
-
     for f in range(training_from,training_to):
         reader = btk.btkAcquisitionFileReader()
         reader.SetFilename(filesCP[f])
@@ -598,24 +483,16 @@ def dataPreparation_ITW():
         RightAnkle = acq.GetPoint("RANK").GetValues()
         LeftToe = acq.GetPoint("LTOE").GetValues()
         RightToe = acq.GetPoint("RTOE").GetValues()
-        # LeftKnee = acq.GetPoint("LKNE").GetValues()
-        # RightKnee = acq.GetPoint("RKNE").GetValues()
-        # LeftThigh = acq.GetPoint("LTHI").GetValues()
-        # RightThigh = acq.GetPoint("RTHI").GetValues()
         LeftTib = acq.GetPoint("LTIB").GetValues()
         RightTib = acq.GetPoint("RTIB").GetValues()
         for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
             LeftHeel[i][1] = 10
             LeftAnkle[i][1] = 10
             LeftToe[i][1] = 10
-            # LeftKnee[i][1] = 10
-            # LeftThigh[i][1] = 10
             LeftTib[i][1] = 10
             RightHeel[i][1] = 40
             RightAnkle[i][1] = 40
             RightToe[i][1] = 40
-            # RightKnee[i][1] = 40
-            # RightThigh[i][1] = 40
             RightTib[i][1] = 40
 
         for i in range(0,nbEvent):
@@ -630,10 +507,6 @@ def dataPreparation_ITW():
             RAnkle = RightAnkle[eventFr-1,:]
             LToe = LeftToe[eventFr-1,:]
             RToe = RightToe[eventFr-1,:]
-            # LKnee = LeftKnee[eventFr-1,:]
-            # RKnee = RightKnee[eventFr-1,:]
-            # LThigh = LeftThigh[eventFr-1,:]
-            # RThigh = RightThigh[eventFr-1,:]
             LTib = LeftTib[eventFr-1,:]
             RTib = RightTib[eventFr-1,:]
             allValues = [] # Stocke les frames des evenements
@@ -643,10 +516,6 @@ def dataPreparation_ITW():
             allValues.extend(RAnkle)
             allValues.extend(LToe)
             allValues.extend(RToe)
-            # allValues.extend(LKnee)
-            # allValues.extend(RKnee)
-            # allValues.extend(LThigh)
-            # allValues.extend(RThigh)
             allValues.extend(LTib)
             allValues.extend(RTib)
             X.append(allValues) # Les frames des evenements
@@ -670,24 +539,16 @@ for f in range(training_from2,training_to2):
     RightAnkle = acq.GetPoint("RANK").GetValues()
     LeftToe = acq.GetPoint("LTOE").GetValues()
     RightToe = acq.GetPoint("RTOE").GetValues()
-    # LeftKnee = acq.GetPoint("LKNE").GetValues()
-    # RightKnee = acq.GetPoint("RKNE").GetValues()
-    # LeftThigh = acq.GetPoint("LTHI").GetValues()
-    # RightThigh = acq.GetPoint("RTHI").GetValues()
     LeftTib = acq.GetPoint("LTIB").GetValues()
     RightTib = acq.GetPoint("RTIB").GetValues()
     for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
         LeftHeel[i][1] = 10
         LeftAnkle[i][1] = 10
         LeftToe[i][1] = 10
-        # LeftKnee[i][1] = 10
-        # LeftThigh[i][1] = 10
         LeftTib[i][1] = 10
         RightHeel[i][1] = 40
         RightAnkle[i][1] = 40
         RightToe[i][1] = 40
-        # RightKnee[i][1] = 40
-        # RightThigh[i][1] = 40
         RightTib[i][1] = 40
 
     for i in range(0,nbEvent):
@@ -702,10 +563,6 @@ for f in range(training_from2,training_to2):
         RAnkle = RightAnkle[eventFr-1,:]
         LToe = LeftToe[eventFr-1,:]
         RToe = RightToe[eventFr-1,:]
-        # LKnee = LeftKnee[eventFr-1,:]
-        # RKnee = RightKnee[eventFr-1,:]
-        # LThigh = LeftThigh[eventFr-1,:]
-        # RThigh = RightThigh[eventFr-1,:]
         LTib = LeftTib[eventFr-1,:]
         RTib = RightTib[eventFr-1,:]
         allValues = [] # Stocke les frames des evenements
@@ -715,17 +572,10 @@ for f in range(training_from2,training_to2):
         allValues.extend(RAnkle)
         allValues.extend(LToe)
         allValues.extend(RToe)
-        # allValues.extend(LKnee)
-        # allValues.extend(RKnee)
-        # allValues.extend(LThigh)
-        # allValues.extend(RThigh)
         allValues.extend(LTib)
         allValues.extend(RTib)
         X.append(allValues) # Les frames des evenements
         Y.append(label + " " + context)
-
-
-
 
     # Gestion des nothing
     for i in range(0,nbEvent):
@@ -741,10 +591,6 @@ for f in range(training_from2,training_to2):
                 RAnkle = RightAnkle[eventFr + val,:]
                 LToe = LeftToe[eventFr + val,:]
                 RToe = RightToe[eventFr + val,:]
-                # LKnee = LeftKnee[event + val,:]
-                # RKnee = RightKnee[event + val,:]
-                # LThigh = LeftThigh[event + val,:]
-                # RThigh = RightThigh[event + val,:]
                 LTib = LeftTib[eventFr + val,:]
                 RTib = RightTib[eventFr + val,:]
                 allValues = []
@@ -754,19 +600,10 @@ for f in range(training_from2,training_to2):
                 allValues.extend(RAnkle)
                 allValues.extend(LToe)
                 allValues.extend(RToe)
-                # allValues.extend(LKnee)
-                # allValues.extend(RKnee)
-                # allValues.extend(LThigh)
-                # allValues.extend(RThigh)
                 allValues.extend(LTib)
                 allValues.extend(RTib)
                 X.append(allValues)
                 Y.append("nothing") # PROBLEM ICI
-
-
-
-
-
 
 def prediction_ITW():
     #clf = tree.DecisionTreeClassifier()
@@ -776,8 +613,6 @@ def prediction_ITW():
     #clf = svm.SVC(gamma=0.001, C=100.)
 
     clf = clf.fit(X, Y)
-
-
     # Testing
     for f in range(testing_from,testing_to):
         indexname = filesCP[f].split("/",9)
@@ -794,24 +629,16 @@ def prediction_ITW():
         RightAnkle = acq.GetPoint("RANK").GetValues()
         LeftToe = acq.GetPoint("LTOE").GetValues()
         RightToe = acq.GetPoint("RTOE").GetValues()
-        # LeftKnee = acq.GetPoint("LKNE").GetValues()
-        # RightKnee = acq.GetPoint("RKNE").GetValues()
-        # LeftThigh = acq.GetPoint("LTHI").GetValues()
-        # RightThigh = acq.GetPoint("RTHI").GetValues()
         LeftTib = acq.GetPoint("LTIB").GetValues()
         RightTib = acq.GetPoint("RTIB").GetValues()
         for i in range(len(LeftHeel)):
             LeftHeel[i][1] = 10
             LeftAnkle[i][1] = 10
             LeftToe[i][1] = 10
-            # LeftKnee[i][1] = 10
-            # LeftThigh[i][1] = 10
             LeftTib[i][1] = 10
             RightHeel[i][1] = 40
             RightAnkle[i][1] = 40
             RightToe[i][1] = 40
-            # RightKnee[i][1] = 40
-            # RightThigh[i][1] = 40
             RightTib[i][1] = 40
 
         prediction = [[]]*(nbFrame-1)
@@ -823,10 +650,6 @@ def prediction_ITW():
             RAnkle = RightAnkle[i-1,:]
             LToe = LeftToe[i-1,:]
             RToe = RightToe[i-1,:]
-            # LKnee = LeftKnee[i-1,:]
-            # RKnee = RightKnee[i-1,:]
-            # LThigh = LeftThigh[i-1,:]
-            # RThigh = RightThigh[i-1,:]
             LTib = LeftTib[i-1,:]
             RTib = RightTib[i-1,:]
             allValues = []
@@ -836,29 +659,17 @@ def prediction_ITW():
             allValues.extend(RAnkle)
             allValues.extend(LToe)
             allValues.extend(RToe)
-            # allValues.extend(LKnee)
-            # allValues.extend(RKnee)
-            # allValues.extend(LThigh)
-            # allValues.extend(RThigh)
             allValues.extend(LTib)
             allValues.extend(RTib)
             prediction[i-1] = allValues
 
-
         newValues = clf.predict(prediction)
-
-
-
-
-
 
         ev = 0
         lerror = []
         lnewevent = []
         lnec = []
         lnel = []
-
-
 
         for i in range(0,nbFrame-2):
             if (newValues[i] != "nothing"):
@@ -898,19 +709,16 @@ def prediction_ITW():
                 ev = ev +1
                 lnewevent.append(f)
 
-
         llnec.append(lnec)
         llnel.append(lnel)
         llnew.append(lnewevent)
 
         writer = btk.btkAcquisitionFileWriter()
         writer.SetInput(acq)
-        #writer.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         writer.SetFilename(pathSave + fname)
         writer.Update()
 
         reader = btk.btkAcquisitionFileReader()
-        #reader.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         reader.SetFilename(pathSave + fname)
         reader.Update()
         acq = reader.GetOutput() # acq is the btk aquisition object
@@ -1026,32 +834,6 @@ def prediction_ITW():
                     acq.AppendEvent(event)
                     lnewevent.append(f)
 
-
-
-        # print(leventFr)
-        # print(llabel)
-        # print(lcontext)
-
-
-        # for i in range(0,len[levent[d]]):
-        #     event = acq.GetEvent(i)
-        #     eventFr = event.GetFrame() # return the frame as an integer
-        #     leventFr.append(eventFr)
-        #     label = event.GetLabel() # return a string representing the Label
-        #     context = event.GetContext() # return a string representing the Context
-        #     llabel.append(label)
-        #     lcontext.append(context)
-        # for o in range(0,len(leventFr)):
-        #     mindist = nbFrame
-        #     for p in range(0,len(lnewevent)):
-        #         if lnel[p] == llabel[o] and lnec[p] == lcontext[o]:
-        #             if abs(leventFr[o] - lnewevent[p]) < mindist :
-        #                 mindist = abs(leventFr[o] - lnewevent[p])
-        #     lerror.append(mindist)
-        # if ev > 100:
-        #     print("ALERT")
-
-
         leventFr = []
         llabel = []
         lcontext = []
@@ -1064,8 +846,6 @@ def prediction_ITW():
             llabel.append(label)
             lcontext.append(context)
 
-
-
         for o in range(0,len(leventFr)):
             mindist = 45
             for p in range(0,len(lnewevent)):
@@ -1076,10 +856,8 @@ def prediction_ITW():
         if ev > 100:
             print("ALERT")
 
-
         writer = btk.btkAcquisitionFileWriter()
         writer.SetInput(acq)
-        #writer.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         writer.SetFilename(pathSave + fname)
 
         writer.Update()
@@ -1099,12 +877,6 @@ def prediction_ITW():
 
 
 def dataPreparation_FD():
-    # path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/"+pathology+"/*"
-    # filesCP = glob.glob(path) # Pour avoir tous les noms de fichiers dans une liste
-    # X = []
-    # Y = []
-    # third = int(round(len(filesCP)/3))*2 # Deux tiers du nombre de fichiers
-
     for f in range(training_from,training_to):
         reader = btk.btkAcquisitionFileReader()
         reader.SetFilename(filesCP[f])
@@ -1121,24 +893,16 @@ def dataPreparation_FD():
         RightAnkle = acq.GetPoint("RANK").GetValues()
         LeftToe = acq.GetPoint("LTOE").GetValues()
         RightToe = acq.GetPoint("RTOE").GetValues()
-        # LeftKnee = acq.GetPoint("LKNE").GetValues()
-        # RightKnee = acq.GetPoint("RKNE").GetValues()
-        # LeftThigh = acq.GetPoint("LTHI").GetValues()
-        # RightThigh = acq.GetPoint("RTHI").GetValues()
         LeftTib = acq.GetPoint("LTIB").GetValues()
         RightTib = acq.GetPoint("RTIB").GetValues()
         for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
             LeftHeel[i][1] = 10
             LeftAnkle[i][1] = 10
             LeftToe[i][1] = 10
-            # LeftKnee[i][1] = 10
-            # LeftThigh[i][1] = 10
             LeftTib[i][1] = 10
             RightHeel[i][1] = 40
             RightAnkle[i][1] = 40
             RightToe[i][1] = 40
-            # RightKnee[i][1] = 40
-            # RightThigh[i][1] = 40
             RightTib[i][1] = 40
 
         for i in range(0,nbEvent):
@@ -1153,10 +917,6 @@ def dataPreparation_FD():
             RAnkle = RightAnkle[eventFr-1,:]
             LToe = LeftToe[eventFr-1,:]
             RToe = RightToe[eventFr-1,:]
-            # LKnee = LeftKnee[eventFr-1,:]
-            # RKnee = RightKnee[eventFr-1,:]
-            # LThigh = LeftThigh[eventFr-1,:]
-            # RThigh = RightThigh[eventFr-1,:]
             LTib = LeftTib[eventFr-1,:]
             RTib = RightTib[eventFr-1,:]
             allValues = [] # Stocke les frames des evenements
@@ -1166,16 +926,10 @@ def dataPreparation_FD():
             allValues.extend(RAnkle)
             allValues.extend(LToe)
             allValues.extend(RToe)
-            # allValues.extend(LKnee)
-            # allValues.extend(RKnee)
-            # allValues.extend(LThigh)
-            # allValues.extend(RThigh)
             allValues.extend(LTib)
             allValues.extend(RTib)
             X.append(allValues) # Les frames des evenements
             Y.append(label + " " + context) # Les labels des evenements (les labels correspondants)
-
-
 
 for f in range(training_from2,training_to2):
     reader = btk.btkAcquisitionFileReader()
@@ -1193,24 +947,16 @@ for f in range(training_from2,training_to2):
     RightAnkle = acq.GetPoint("RANK").GetValues()
     LeftToe = acq.GetPoint("LTOE").GetValues()
     RightToe = acq.GetPoint("RTOE").GetValues()
-    # LeftKnee = acq.GetPoint("LKNE").GetValues()
-    # RightKnee = acq.GetPoint("RKNE").GetValues()
-    # LeftThigh = acq.GetPoint("LTHI").GetValues()
-    # RightThigh = acq.GetPoint("RTHI").GetValues()
     LeftTib = acq.GetPoint("LTIB").GetValues()
     RightTib = acq.GetPoint("RTIB").GetValues()
     for i in range(len(LeftHeel)): # Nous n'utilisons pas la profondeur de la marche
         LeftHeel[i][1] = 10
         LeftAnkle[i][1] = 10
         LeftToe[i][1] = 10
-        # LeftKnee[i][1] = 10
-        # LeftThigh[i][1] = 10
         LeftTib[i][1] = 10
         RightHeel[i][1] = 40
         RightAnkle[i][1] = 40
         RightToe[i][1] = 40
-        # RightKnee[i][1] = 40
-        # RightThigh[i][1] = 40
         RightTib[i][1] = 40
 
     for i in range(0,nbEvent):
@@ -1225,10 +971,6 @@ for f in range(training_from2,training_to2):
         RAnkle = RightAnkle[eventFr-1,:]
         LToe = LeftToe[eventFr-1,:]
         RToe = RightToe[eventFr-1,:]
-        # LKnee = LeftKnee[eventFr-1,:]
-        # RKnee = RightKnee[eventFr-1,:]
-        # LThigh = LeftThigh[eventFr-1,:]
-        # RThigh = RightThigh[eventFr-1,:]
         LTib = LeftTib[eventFr-1,:]
         RTib = RightTib[eventFr-1,:]
         allValues = [] # Stocke les frames des evenements
@@ -1238,10 +980,6 @@ for f in range(training_from2,training_to2):
         allValues.extend(RAnkle)
         allValues.extend(LToe)
         allValues.extend(RToe)
-        # allValues.extend(LKnee)
-        # allValues.extend(RKnee)
-        # allValues.extend(LThigh)
-        # allValues.extend(RThigh)
         allValues.extend(LTib)
         allValues.extend(RTib)
         X.append(allValues) # Les frames des evenements
@@ -1262,10 +1000,6 @@ for f in range(training_from2,training_to2):
                 RAnkle = RightAnkle[eventFr + val,:]
                 LToe = LeftToe[eventFr + val,:]
                 RToe = RightToe[eventFr + val,:]
-                # LKnee = LeftKnee[event + val,:]
-                # RKnee = RightKnee[event + val,:]
-                # LThigh = LeftThigh[event + val,:]
-                # RThigh = RightThigh[event + val,:]
                 LTib = LeftTib[eventFr + val,:]
                 RTib = RightTib[eventFr + val,:]
                 allValues = []
@@ -1275,19 +1009,10 @@ for f in range(training_from2,training_to2):
                 allValues.extend(RAnkle)
                 allValues.extend(LToe)
                 allValues.extend(RToe)
-                # allValues.extend(LKnee)
-                # allValues.extend(RKnee)
-                # allValues.extend(LThigh)
-                # allValues.extend(RThigh)
                 allValues.extend(LTib)
                 allValues.extend(RTib)
                 X.append(allValues)
                 Y.append("nothing") # PROBLEM ICI
-
-
-
-
-
 
 def prediction_FD():
     #clf = tree.DecisionTreeClassifier()
@@ -1315,24 +1040,16 @@ def prediction_FD():
         RightAnkle = acq.GetPoint("RANK").GetValues()
         LeftToe = acq.GetPoint("LTOE").GetValues()
         RightToe = acq.GetPoint("RTOE").GetValues()
-        # LeftKnee = acq.GetPoint("LKNE").GetValues()
-        # RightKnee = acq.GetPoint("RKNE").GetValues()
-        # LeftThigh = acq.GetPoint("LTHI").GetValues()
-        # RightThigh = acq.GetPoint("RTHI").GetValues()
         LeftTib = acq.GetPoint("LTIB").GetValues()
         RightTib = acq.GetPoint("RTIB").GetValues()
         for i in range(len(LeftHeel)):
             LeftHeel[i][1] = 10
             LeftAnkle[i][1] = 10
             LeftToe[i][1] = 10
-            # LeftKnee[i][1] = 10
-            # LeftThigh[i][1] = 10
             LeftTib[i][1] = 10
             RightHeel[i][1] = 40
             RightAnkle[i][1] = 40
             RightToe[i][1] = 40
-            # RightKnee[i][1] = 40
-            # RightThigh[i][1] = 40
             RightTib[i][1] = 40
 
         prediction = [[]]*(nbFrame-1)
@@ -1344,10 +1061,6 @@ def prediction_FD():
             RAnkle = RightAnkle[i-1,:]
             LToe = LeftToe[i-1,:]
             RToe = RightToe[i-1,:]
-            # LKnee = LeftKnee[i-1,:]
-            # RKnee = RightKnee[i-1,:]
-            # LThigh = LeftThigh[i-1,:]
-            # RThigh = RightThigh[i-1,:]
             LTib = LeftTib[i-1,:]
             RTib = RightTib[i-1,:]
             allValues = []
@@ -1357,29 +1070,17 @@ def prediction_FD():
             allValues.extend(RAnkle)
             allValues.extend(LToe)
             allValues.extend(RToe)
-            # allValues.extend(LKnee)
-            # allValues.extend(RKnee)
-            # allValues.extend(LThigh)
-            # allValues.extend(RThigh)
             allValues.extend(LTib)
             allValues.extend(RTib)
             prediction[i-1] = allValues
 
-
         newValues = clf.predict(prediction)
-
-
-
-
-
 
         ev = 0
         lerror = []
         lnewevent = []
         lnec = []
         lnel = []
-
-
 
         for i in range(0,nbFrame-2):
             if (newValues[i] != "nothing"):
@@ -1398,7 +1099,6 @@ def prediction_FD():
                 max = -1000000
                 if tmpl[0] == "Foot_Strike_GS":
                     for k in range(i,i+value):
-                        # if LeftToe[k][2] + RightToe[k][2] + LeftHeel[k][2] + RightHeel[k][2] < min:
                         if LeftHeel[k][2] + RightHeel[k][2] < min:
                             min = LeftToe[k][2] + RightToe[k][2]
                             f = k
@@ -1419,19 +1119,16 @@ def prediction_FD():
                 ev = ev +1
                 lnewevent.append(f)
 
-
         llnec.append(lnec)
         llnel.append(lnel)
         llnew.append(lnewevent)
 
         writer = btk.btkAcquisitionFileWriter()
         writer.SetInput(acq)
-        #writer.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         writer.SetFilename(pathSave + fname)
         writer.Update()
 
         reader = btk.btkAcquisitionFileReader()
-        #reader.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         reader.SetFilename(pathSave + fname)
         reader.Update()
         acq = reader.GetOutput() # acq is the btk aquisition object
@@ -1547,32 +1244,6 @@ def prediction_FD():
                     acq.AppendEvent(event)
                     lnewevent.append(f)
 
-
-
-        # print(leventFr)
-        # print(llabel)
-        # print(lcontext)
-
-
-        # for i in range(0,len[levent[d]]):
-        #     event = acq.GetEvent(i)
-        #     eventFr = event.GetFrame() # return the frame as an integer
-        #     leventFr.append(eventFr)
-        #     label = event.GetLabel() # return a string representing the Label
-        #     context = event.GetContext() # return a string representing the Context
-        #     llabel.append(label)
-        #     lcontext.append(context)
-        # for o in range(0,len(leventFr)):
-        #     mindist = nbFrame
-        #     for p in range(0,len(lnewevent)):
-        #         if lnel[p] == llabel[o] and lnec[p] == lcontext[o]:
-        #             if abs(leventFr[o] - lnewevent[p]) < mindist :
-        #                 mindist = abs(leventFr[o] - lnewevent[p])
-        #     lerror.append(mindist)
-        # if ev > 100:
-        #     print("ALERT")
-
-
         leventFr = []
         llabel = []
         lcontext = []
@@ -1585,8 +1256,6 @@ def prediction_FD():
             llabel.append(label)
             lcontext.append(context)
 
-
-
         for o in range(0,len(leventFr)):
             mindist = 45
             for p in range(0,len(lnewevent)):
@@ -1597,15 +1266,12 @@ def prediction_FD():
         if ev > 100:
             print("ALERT")
 
-
         writer = btk.btkAcquisitionFileWriter()
         writer.SetInput(acq)
         #writer.SetFilename('/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/' + fname)
         writer.SetFilename(pathSave + fname)
-
         writer.Update()
         allerror.append(lerror)
-    # print(allerror)
     valerr = 0
     for k in allerror:
         for p in k:
@@ -1616,13 +1282,6 @@ def prediction_FD():
     print("error FD :")
     print(valerr/len(allerror))
     allrfd.append(valerr/len(allerror))
-
-
-
-
-
-
-
 
 
 
@@ -1657,9 +1316,6 @@ testing_from = third
 testing_to = third*2
 dataPreparation_CP()
 prediction_CP()
-
-
-
 
 
 
@@ -1702,9 +1358,6 @@ testing_from = third
 testing_to = third*2
 dataPreparation_ITW()
 prediction_ITW()
-
-
-
 
 
 
