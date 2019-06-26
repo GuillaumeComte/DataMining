@@ -17,10 +17,10 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 
-#pathCP = "/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Gait/Sofamehack2019/Sub_DB_Checked/CP/*"
-path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/CP/*"
-pathSave = '/home/jonathanlo/Documents/DataMining/DM_Final_Project/Resultats/'
-#pathSave = '/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Results/CP/'
+path = "/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Gait/Sofamehack2019/Sub_DB_Checked/CP/*"
+#path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/CP/*"
+#pathSave = '/home/jonathanlo/Documents/DataMining/DM_Final_Project/Resultats/'
+pathSave = '/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Resultats/'
 
 filesCP = glob.glob(path) # Pour avoir tous les noms de fichiers dans une liste
 allerror = []
@@ -45,6 +45,9 @@ llnew = []
 llnec = []
 llnel = []
 
+allrcp = []
+allrfd = []
+allritw = []
 
 
 
@@ -567,6 +570,7 @@ def prediction_CP():
     print(" ")
     print("error CP :")
     print(valerr/len(allerror))
+    allrcp.append(valerr/len(allerror))
 
 
 
@@ -1089,6 +1093,7 @@ def prediction_ITW():
     print(" ")
     print("error ITW :")
     print(valerr/len(allerror))
+    allritw.append(valerr/len(allerror))
 
 
 
@@ -1610,7 +1615,7 @@ def prediction_FD():
     print(" ")
     print("error FD :")
     print(valerr/len(allerror))
-    print("")
+    allrfd.append(valerr/len(allerror))
 
 
 
@@ -1660,7 +1665,7 @@ prediction_CP()
 
 print("########## ITW ############")
 print("Premier tiers")
-path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/ITW/*"
+path = "/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Gait/Sofamehack2019/Sub_DB_Checked/ITW/*"
 filesCP = glob.glob(path)
 X = []
 Y = []
@@ -1705,7 +1710,7 @@ prediction_ITW()
 
 print("########## FD ############")
 print("Premier tiers")
-path = "/home/jonathanlo/Documents/DataMining/DM_Final_Project/Sofamehack2019/Sofamehack2019/Sub_DB_Checked/FD/*"
+path = "/home/guillaume/Bureau/PROJET DATA MINING OPERATIONAL/Gait/Sofamehack2019/Sub_DB_Checked/FD/*"
 filesCP = glob.glob(path)
 X = []
 Y = []
@@ -1744,3 +1749,14 @@ testing_from = third
 testing_to = third*2
 dataPreparation_FD()
 prediction_FD()
+
+print(" ")
+print(" ")
+print("Global Error CP :")
+print(np.mean(allrcp))
+print(" ")
+print("Global Error ITW :")
+print(np.mean(allritw))
+print(" ")
+print("Global Error FD :")
+print(np.mean(allrfd))
